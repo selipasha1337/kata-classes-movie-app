@@ -1,0 +1,9 @@
+.moviesCardList {
+  margin-top: 34px;
+  padding-bottom: 34px;
+}
+
+.moviesCardList__tips {
+  display: flex;
+  flex-direction: column;
+}

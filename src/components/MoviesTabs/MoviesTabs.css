@@ -1,0 +1,26 @@
+.moviesTabs {
+  padding-top: 20px;
+}
+
+.moviesTabs .ant-tabs-nav {
+  width: fit-content;
+  margin: 0 auto 20px;
+}
+
+@media (min-width: 320px) {
+  .moviesTabs {
+    padding-top: 6px;
+  }
+}
+
+@media (max-width: 320px) {
+  .moviesTabs {
+    padding-top: 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  .moviesTabs {
+    padding-top: 20px;
+  }
+}
