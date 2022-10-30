@@ -12,13 +12,17 @@ class SearchMoviesPage extends Component {
     load: false,
     error: '',
     search: '',
+    pageNumber: 1,
+    totalPages: 0,
   }
 
   async componentDidMount() {
+    const { pageNumber } = this.state
     try {
       this.setState({ load: true })
-      const allMovies = await MoviesService.getAllMovies()
-      this.setState({ movies: [...allMovies.results] })
+      const res = await MoviesService.getMovies('return', pageNumber)
+      this.setState({ movies: res.results })
+      this.setState({ totalPages: res.total_pages })
     } catch (e) {
       this.setState({ error: e.message })
     } finally {
@@ -27,16 +31,18 @@ class SearchMoviesPage extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const { search } = this.state
-    if (prevState.search !== search) {
+    const { search, pageNumber } = this.state
+    if (prevState.search !== search || prevState.pageNumber !== this.state.pageNumber) {
       try {
         this.setState({ load: true })
         if (search) {
-          const searchedMovies = await MoviesService.getSearchedMovies(search)
-          this.setState({ movies: searchedMovies.results })
+          const res = await MoviesService.getMovies(search, pageNumber)
+          this.setState({ movies: res.results })
+          this.setState({ totalPages: res.total_pages })
         } else {
-          const allMovies = await MoviesService.getAllMovies()
-          this.setState({ movies: allMovies.results })
+          const res = await MoviesService.getMovies('return', pageNumber)
+          this.setState({ movies: res.results })
+          this.setState({ totalPages: res.total_pages })
         }
       } catch (e) {
         this.setState({ error: e.message })
@@ -50,14 +56,18 @@ class SearchMoviesPage extends Component {
     this.setState({ search: e.target.value.trim() })
   }, 500)
 
+  handlePagination = (page) => {
+    this.setState({ pageNumber: page })
+  }
+
   render() {
-    const { movies, load, error, search } = this.state
+    const { movies, load, error, search, pageNumber, totalPages } = this.state
 
     return (
       <>
         <MoviesSearch value={search} onChange={this.handleSearchValue} />
         <MoviesCardList movies={movies} error={error} load={load} />
-        <MoviesPagination />
+        <MoviesPagination pageNumber={pageNumber} totalPages={totalPages} handlePagination={this.handlePagination} />
       </>
     )
   }

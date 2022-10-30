@@ -4,21 +4,12 @@ export default class MoviesService {
   static API_URL = 'https://api.themoviedb.org/3'
   static API_KEY = '133a5d5e76a1fa8b5d872d6e18fe32d5'
 
-  static async getAllMovies(currentPage = 1) {
-    const res = await axios.get(`${this.API_URL}/discover/movie`, {
-      params: {
-        api_key: this.API_KEY,
-        page: currentPage,
-      },
-    })
-    return res.data
-  }
-
-  static async getSearchedMovies(query) {
+  static async getMovies(query, currentPage = 1) {
     const res = await axios.get(`${this.API_URL}/search/movie`, {
       params: {
         api_key: this.API_KEY,
         query: query,
+        page: currentPage,
       },
     })
     return res.data
@@ -32,5 +23,14 @@ export default class MoviesService {
     })
 
     return res.data.genres
+  }
+
+  static async getGuestSessionId() {
+    const res = await axios.get(`${this.API_URL}/authentication/guest_session/new`, {
+      params: {
+        api_key: this.API_KEY,
+      },
+    })
+    return res.data.guest_session_id
   }
 }

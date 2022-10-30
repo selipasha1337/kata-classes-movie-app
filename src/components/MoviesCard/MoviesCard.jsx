@@ -25,7 +25,7 @@ class MoviesCard extends Component {
   }
 
   imageFormat = (imagePath) => {
-    return imagePath ? `https://image.tmdb.org/t/p/w200/${imagePath}` : ''
+    return imagePath ? `https://image.tmdb.org/t/p/w200${imagePath}` : ''
   }
 
   MovieTagsFormat = () => {
