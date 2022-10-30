@@ -14,6 +14,8 @@ class SearchMoviesPage extends Component {
     search: '',
     pageNumber: 1,
     totalPages: 0,
+    /////
+    guestSessionId: '',
   }
 
   async componentDidMount() {
@@ -28,6 +30,9 @@ class SearchMoviesPage extends Component {
     } finally {
       this.setState({ load: false })
     }
+
+    const guestSessionId = await MoviesService.getGuestSessionId()
+    this.setState({ guestSessionId })
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -61,10 +66,11 @@ class SearchMoviesPage extends Component {
   }
 
   render() {
-    const { movies, load, error, search, pageNumber, totalPages } = this.state
+    const { movies, load, error, search, pageNumber, totalPages, guestSessionId } = this.state
 
     return (
       <>
+        {guestSessionId}
         <MoviesSearch value={search} onChange={this.handleSearchValue} />
         <MoviesCardList movies={movies} error={error} load={load} />
         <MoviesPagination pageNumber={pageNumber} totalPages={totalPages} handlePagination={this.handlePagination} />

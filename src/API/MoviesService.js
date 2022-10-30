@@ -25,12 +25,20 @@ export default class MoviesService {
     return res.data.genres
   }
 
-  static async getGuestSessionId() {
+  static async setGuestSessionId() {
     const res = await axios.get(`${this.API_URL}/authentication/guest_session/new`, {
       params: {
         api_key: this.API_KEY,
       },
     })
-    return res.data.guest_session_id
+
+    if (!localStorage.getItem('GUEST_SESSION_ID')) {
+      return window.localStorage.setItem('GUEST_SESSION_ID', res.data.guest_session_id)
+    }
+  }
+
+  static async getGuestSessionId() {
+    await MoviesService.setGuestSessionId()
+    return window.localStorage.getItem('GUEST_SESSION_ID')
   }
 }
