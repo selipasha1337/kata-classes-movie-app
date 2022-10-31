@@ -5,8 +5,11 @@ import MoviesSearch from '../MoviesSearch'
 import MoviesCardList from '../MoviesCardList'
 import MoviesPagination from '../MoviesPagination'
 import MoviesService from '../../API/MoviesService'
+import MoviesContext from '../../context/MoviesContext'
 
 class SearchMoviesPage extends Component {
+  static contextType = MoviesContext
+
   state = {
     movies: [],
     load: false,
@@ -14,8 +17,6 @@ class SearchMoviesPage extends Component {
     search: '',
     pageNumber: 1,
     totalPages: 0,
-    /////
-    guestSessionId: '',
   }
 
   async componentDidMount() {
@@ -30,9 +31,6 @@ class SearchMoviesPage extends Component {
     } finally {
       this.setState({ load: false })
     }
-
-    const guestSessionId = await MoviesService.getGuestSessionId()
-    this.setState({ guestSessionId })
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -66,7 +64,8 @@ class SearchMoviesPage extends Component {
   }
 
   render() {
-    const { movies, load, error, search, pageNumber, totalPages, guestSessionId } = this.state
+    const { movies, load, error, search, pageNumber, totalPages } = this.state
+    const { guestSessionId } = this.context
 
     return (
       <>

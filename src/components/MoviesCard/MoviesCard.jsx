@@ -10,6 +10,8 @@ import noPosterAvailable from './images/no-poster.jpg'
 import './MoviesCard.css'
 
 class MoviesCard extends Component {
+  static contextType = MoviesContext
+
   dateFormat = (date) => {
     return date ? format(parseISO(date), 'MMMMMM d, yyyy') : null
   }
@@ -78,6 +80,6 @@ class MoviesCard extends Component {
   }
 }
 
-MoviesCard.contextType = MoviesContext
+// MoviesCard.contextType = MoviesContext
 
 export default MoviesCard
