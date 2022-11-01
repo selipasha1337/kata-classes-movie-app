@@ -5,7 +5,7 @@ import styles from './MoviesPagination.module.css'
 
 class MoviesPagination extends Component {
   totalPageFormat = (pagesCount) => {
-    return pagesCount * 10 > 500 ? 5000 : pagesCount * 10
+    return pagesCount >= 500 ? 500 : pagesCount
   }
 
   render() {
@@ -17,6 +17,7 @@ class MoviesPagination extends Component {
           defaultCurrent={1}
           showSizeChanger={false}
           current={pageNumber}
+          defaultPageSize={1}
           total={this.totalPageFormat(totalPages)}
           onChange={handlePagination}
           hideOnSinglePage

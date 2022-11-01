@@ -5,11 +5,8 @@ import MoviesSearch from '../MoviesSearch'
 import MoviesCardList from '../MoviesCardList'
 import MoviesPagination from '../MoviesPagination'
 import MoviesService from '../../API/MoviesService'
-import MoviesContext from '../../context/MoviesContext'
 
 class SearchMoviesPage extends Component {
-  static contextType = MoviesContext
-
   state = {
     movies: [],
     load: false,
@@ -35,18 +32,22 @@ class SearchMoviesPage extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     const { search, pageNumber } = this.state
+
     if (prevState.search !== search || prevState.pageNumber !== this.state.pageNumber) {
       try {
         this.setState({ load: true })
+        let res = await MoviesService.getMovies('return', pageNumber)
+
         if (search) {
-          const res = await MoviesService.getMovies(search, pageNumber)
-          this.setState({ movies: res.results })
-          this.setState({ totalPages: res.total_pages })
-        } else {
-          const res = await MoviesService.getMovies('return', pageNumber)
-          this.setState({ movies: res.results })
-          this.setState({ totalPages: res.total_pages })
+          res = await MoviesService.getMovies(search, pageNumber)
         }
+
+        if (prevState.pageNumber === this.state.pageNumber) {
+          this.setState({ pageNumber: 1 })
+        }
+
+        this.setState({ movies: res.results })
+        this.setState({ totalPages: res.total_pages })
       } catch (e) {
         this.setState({ error: e.message })
       } finally {
@@ -65,11 +66,9 @@ class SearchMoviesPage extends Component {
 
   render() {
     const { movies, load, error, search, pageNumber, totalPages } = this.state
-    const { guestSessionId } = this.context
 
     return (
       <>
-        {guestSessionId}
         <MoviesSearch value={search} onChange={this.handleSearchValue} />
         <MoviesCardList movies={movies} error={error} load={load} />
         <MoviesPagination pageNumber={pageNumber} totalPages={totalPages} handlePagination={this.handlePagination} />

@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { Component } from 'react'
 
-export default class MoviesService {
+class MoviesService extends Component {
   static API_URL = 'https://api.themoviedb.org/3'
   static API_KEY = '133a5d5e76a1fa8b5d872d6e18fe32d5'
 
@@ -25,6 +26,17 @@ export default class MoviesService {
     return res.data.genres
   }
 
+  static async rateMovie(guestSessionId) {
+    const res = await axios.post(`${this.API_URL}/genre/movie/list`, {
+      params: {
+        api_key: this.API_KEY,
+        guest_session_id: guestSessionId,
+      },
+    })
+
+    return res.data.genres
+  }
+
   static async setGuestSessionId() {
     const res = await axios.get(`${this.API_URL}/authentication/guest_session/new`, {
       params: {
@@ -42,3 +54,5 @@ export default class MoviesService {
     return window.localStorage.getItem('GUEST_SESSION_ID')
   }
 }
+
+export default MoviesService

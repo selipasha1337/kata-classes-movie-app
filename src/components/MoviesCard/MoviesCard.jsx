@@ -12,6 +12,20 @@ import './MoviesCard.css'
 class MoviesCard extends Component {
   static contextType = MoviesContext
 
+  state = {
+    rate: 0,
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    const { rate } = this.state
+    const { movie } = this.props
+
+    if (prevState.rate !== rate) {
+      console.log('movie id:', movie.id)
+      console.log('rate:', rate)
+    }
+  }
+
   dateFormat = (date) => {
     return date ? format(parseISO(date), 'MMMMMM d, yyyy') : null
   }
@@ -49,7 +63,12 @@ class MoviesCard extends Component {
     return false
   }
 
+  movieRatingHandler = (value) => {
+    this.setState({ rate: value })
+  }
+
   render() {
+    const { rate } = this.state
     const { movie } = this.props
 
     this.renderMovieTags()
@@ -72,7 +91,7 @@ class MoviesCard extends Component {
         <div className="moviesCard__desc">
           <Text>{this.textFormat(movie.overview, 190)}</Text>
           <div className="moviesCard__rating">
-            <Rate defaultValue={0} count={10} allowHalf />
+            <Rate defaultValue={0} count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />
           </div>
         </div>
       </div>
