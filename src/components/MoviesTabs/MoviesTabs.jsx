@@ -13,6 +13,7 @@ class MoviesTabs extends Component {
         <Tabs
           defaultActiveKey="search"
           centered
+          destroyInactiveTabPane
           items={[
             {
               label: 'Search',

@@ -1,13 +1,17 @@
 import { Component } from 'react'
-import { Typography, Tag, Rate, Image } from 'antd'
+import { Image, Rate, Tag, Typography } from 'antd'
 import { format, parseISO } from 'date-fns'
+import { round } from 'lodash'
 
 import MoviesScore from '../MoviesScore'
 import MoviesContext from '../../context/MoviesContext'
+import MoviesService from '../../API/MoviesService'
+
+import noPosterAvailable from './images/no-poster.jpg'
+
+import './MoviesCard.css'
 
 const { Title, Text } = Typography
-import noPosterAvailable from './images/no-poster.jpg'
-import './MoviesCard.css'
 
 class MoviesCard extends Component {
   static contextType = MoviesContext
@@ -19,10 +23,10 @@ class MoviesCard extends Component {
   async componentDidUpdate(prevProps, prevState) {
     const { rate } = this.state
     const { movie } = this.props
+    const { guestSessionId } = this.context
 
     if (prevState.rate !== rate) {
-      console.log('movie id:', movie.id)
-      console.log('rate:', rate)
+      return await MoviesService.rateMovie(movie.id, guestSessionId, rate)
     }
   }
 
@@ -44,7 +48,7 @@ class MoviesCard extends Component {
     return imagePath ? `https://image.tmdb.org/t/p/w200${imagePath}` : ''
   }
 
-  MovieTagsFormat = () => {
+  movieTagsFormat = () => {
     const { movie } = this.props
     const { movieTags } = this.context
 
@@ -67,6 +71,10 @@ class MoviesCard extends Component {
     this.setState({ rate: value })
   }
 
+  voteFormat = (vote) => {
+    return round(vote, 1)
+  }
+
   render() {
     const { rate } = this.state
     const { movie } = this.props
@@ -74,7 +82,7 @@ class MoviesCard extends Component {
     this.renderMovieTags()
     return (
       <div className="moviesCard">
-        <MoviesScore value={movie.vote_average} />
+        <MoviesScore value={this.voteFormat(movie.vote_average)} />
         <Image
           src={this.imageFormat(movie.poster_path)}
           fallback={noPosterAvailable}
@@ -86,19 +94,17 @@ class MoviesCard extends Component {
             {movie.title}
           </Title>
           <Text type="secondary">{this.dateFormat(movie.release_date)}</Text>
-          <div className="moviesCard__tags">{this.renderMovieTags(this.MovieTagsFormat())}</div>
+          <div className="moviesCard__tags">{this.renderMovieTags(this.movieTagsFormat())}</div>
         </div>
         <div className="moviesCard__desc">
           <Text>{this.textFormat(movie.overview, 190)}</Text>
           <div className="moviesCard__rating">
-            <Rate defaultValue={0} count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />
+            <Rate count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />
           </div>
         </div>
       </div>
     )
   }
 }
-
-// MoviesCard.contextType = MoviesContext
 
 export default MoviesCard

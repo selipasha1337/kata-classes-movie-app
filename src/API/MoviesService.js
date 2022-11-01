@@ -26,18 +26,7 @@ class MoviesService extends Component {
     return res.data.genres
   }
 
-  static async rateMovie(guestSessionId) {
-    const res = await axios.post(`${this.API_URL}/genre/movie/list`, {
-      params: {
-        api_key: this.API_KEY,
-        guest_session_id: guestSessionId,
-      },
-    })
-
-    return res.data.genres
-  }
-
-  static async setGuestSessionId() {
+  static async getGuestSessionId() {
     const res = await axios.get(`${this.API_URL}/authentication/guest_session/new`, {
       params: {
         api_key: this.API_KEY,
@@ -45,13 +34,37 @@ class MoviesService extends Component {
     })
 
     if (!localStorage.getItem('GUEST_SESSION_ID')) {
-      return window.localStorage.setItem('GUEST_SESSION_ID', res.data.guest_session_id)
+      window.localStorage.setItem('GUEST_SESSION_ID', res.data.guest_session_id)
     }
+
+    return window.localStorage.getItem('GUEST_SESSION_ID')
   }
 
-  static async getGuestSessionId() {
-    await MoviesService.setGuestSessionId()
-    return window.localStorage.getItem('GUEST_SESSION_ID')
+  static async rateMovie(movieId, guestSessionId, rateValue) {
+    const res = await axios.post(
+      `${this.API_URL}/movie/${movieId}/rating`,
+      {
+        value: rateValue,
+      },
+      {
+        params: {
+          api_key: this.API_KEY,
+          guest_session_id: guestSessionId,
+        },
+      }
+    )
+
+    return res.data
+  }
+
+  static async getRatedMovies(guestSessionId, currentPage) {
+    const res = await axios.get(`${this.API_URL}/guest_session/${guestSessionId}/rated/movies`, {
+      params: {
+        api_key: this.API_KEY,
+        page: currentPage,
+      },
+    })
+    return res.data
   }
 }
 
