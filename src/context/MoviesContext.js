@@ -8,7 +8,6 @@ export class MoviesProvider extends Component {
   state = {
     movieTags: [],
     guestSessionId: '',
-    rate: 0,
   }
 
   async componentDidMount() {
@@ -17,12 +16,10 @@ export class MoviesProvider extends Component {
 
     const guestSessionId = await MoviesService.getGuestSessionId()
     this.setState({ guestSessionId })
-
-    localStorage.setItem('rate', this.state.rate)
   }
 
   render() {
-    const { movieTags, guestSessionId, rate } = this.state
+    const { movieTags, guestSessionId } = this.state
     const { children } = this.props
 
     return (
@@ -30,7 +27,6 @@ export class MoviesProvider extends Component {
         value={{
           movieTags,
           guestSessionId,
-          rate,
         }}
       >
         {children}

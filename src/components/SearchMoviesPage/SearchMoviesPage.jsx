@@ -16,20 +16,6 @@ class SearchMoviesPage extends Component {
     totalPages: 0,
   }
 
-  async componentDidMount() {
-    const { pageNumber } = this.state
-    try {
-      this.setState({ load: true })
-      const res = await MoviesService.getMovies('return', pageNumber)
-      this.setState({ movies: res.results })
-      this.setState({ totalPages: res.total_pages })
-    } catch (e) {
-      this.setState({ error: e.message })
-    } finally {
-      this.setState({ load: false })
-    }
-  }
-
   async componentDidUpdate(prevProps, prevState) {
     const { search, pageNumber } = this.state
 

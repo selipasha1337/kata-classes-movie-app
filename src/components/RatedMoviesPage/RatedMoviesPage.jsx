@@ -21,6 +21,7 @@ class RatedMoviesPage extends Component {
     try {
       this.setState({ load: true })
       const res = await MoviesService.getRatedMovies(this.context.guestSessionId, pageNumber)
+      console.log(res)
       this.setState({ movies: res.results })
       this.setState({ totalPages: res.total_pages })
     } catch (e) {
@@ -30,13 +31,13 @@ class RatedMoviesPage extends Component {
     }
   }
 
-  componentDidMount() {
-    this.renderRatedPages()
+  async componentDidMount() {
+    await this.renderRatedPages()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     if (prevState.pageNumber !== this.state.pageNumber) {
-      this.renderRatedPages()
+      await this.renderRatedPages()
     }
   }
 

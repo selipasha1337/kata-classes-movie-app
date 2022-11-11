@@ -71,12 +71,22 @@ class MoviesCard extends Component {
     this.setState({ rate: value })
   }
 
+  movieRateRender = () => {
+    const { rate } = this.state
+    const { movie } = this.props
+
+    if ('rating' in movie) {
+      return <Rate count={10} allowHalf value={movie.rating} />
+    } else {
+      return <Rate count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />
+    }
+  }
+
   voteFormat = (vote) => {
     return round(vote, 1)
   }
 
   render() {
-    const { rate } = this.state
     const { movie } = this.props
 
     this.renderMovieTags()
@@ -99,7 +109,8 @@ class MoviesCard extends Component {
         <div className="moviesCard__desc">
           <Text>{this.textFormat(movie.overview, 190)}</Text>
           <div className="moviesCard__rating">
-            <Rate count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />
+            {this.movieRateRender()}
+            {/*<Rate count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />*/}
           </div>
         </div>
       </div>
