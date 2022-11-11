@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="71cd3bd6-b197-48a9-9a4f-e3684720c5bc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MoviesCard/MoviesCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MoviesCard/MoviesCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/RatedMoviesPage/RatedMoviesPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RatedMoviesPage/RatedMoviesPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SearchMoviesPage/SearchMoviesPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SearchMoviesPage/SearchMoviesPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/context/MoviesContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/MoviesContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
