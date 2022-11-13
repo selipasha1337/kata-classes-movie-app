@@ -76,7 +76,7 @@ class MoviesCard extends Component {
     const { movie } = this.props
 
     if ('rating' in movie) {
-      return <Rate count={10} allowHalf value={movie.rating} />
+      return <Rate count={10} allowHalf value={movie.rating} disabled />
     } else {
       return <Rate count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />
     }
@@ -108,10 +108,7 @@ class MoviesCard extends Component {
         </div>
         <div className="moviesCard__desc">
           <Text>{this.textFormat(movie.overview, 190)}</Text>
-          <div className="moviesCard__rating">
-            {this.movieRateRender()}
-            {/*<Rate count={10} allowHalf value={rate} onChange={this.movieRatingHandler} />*/}
-          </div>
+          <div className="moviesCard__rating">{this.movieRateRender()}</div>
         </div>
       </div>
     )
