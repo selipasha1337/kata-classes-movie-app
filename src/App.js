@@ -7,12 +7,6 @@ import Container from './components/Container'
 import MoviesTabs from './components/MoviesTabs'
 import { MoviesProvider } from './context/MoviesContext'
 
-// TODO: хранить id фильма и поставленную оценку в localStorage
-// TODO: оценка фильма и добавление в массив
-// TODO: фильтр, чтобы фильм нельзя было несколько раз оценить
-// TODO: вывод массива с карточками в таб Rated
-// TODO: возможность удалять оцененные фильмы
-
 class App extends Component {
   render() {
     return (
